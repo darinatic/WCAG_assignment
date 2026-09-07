@@ -1,0 +1,32 @@
+execution_duration_ms: 18856
+request_preview: '{"user_message": "Explain this issue and give me the fix for my
+  page.", "context_tokens": 1923, "context_preview": "# THE REQUIREMENT\n\nNo WCAG
+  success criterion applies to this issue - it is a performance\nfinding, not a conformance
+  failure. There is no normative source here, so\nthe supporting material below carries
+  less authority than usual. Say so if\nthe developer''s question turns on whether
+  something is required.\n\n# EVIDENCE FROM THIS PAGE\n\n## LCP chain (element + blockers)\nLCP:
+  76ms  (Core Web Vitals ''good'' threshold: 2500ms)\nLCP element: <img>  body > main
+  > section:nth-of-type(1) > img\nLCP resource: http://127.0.0.1:8000/fixtures/hero-riverfront.png\n  transfer
+  size: 1,043,802 bytes\n  decoded size:  1,043,502 bytes\n  discovered at: 15ms,
+  took 22ms\n\nLCP element markup:\n  <img src=\"./hero-riverfront.png\" class=\"hero-img\"
+  width=\"1200\" height=\"500\">\n  loading=(not set)  fetchpriority=(not set)\n\nRender-blocking
+  resources in <head>, in document order:\n  [...'
+request_time: '2026-09-07T15:29:04.150Z'
+response_preview: '{"answer": "**What''s wrong**\nThe measured LCP here is 76ms, which
+  is well under the \"good\" threshold — on this page, right now, there''s no LCP
+  problem to fix. That said, this test ran on localhost with near-zero network latency,
+  so it doesn''t reflect what happens over a real connection. Two things in the current
+  setup would hurt LCP in production: `print.css` is marked render-blocking with no
+  `media` attribute even though it''s only meant for printing, and the 1MB hero image
+  (the actual LCP element) has no priority hint telling the browser to fetch it early.\n\n**Who
+  it affects** — no accessibility conformance issue applies here (this isn''t a WCAG
+  success criterion, just a performance finding). On a real network, users on slower
+  connections would see a blank hero area longer than necessary because the browser
+  is blocking render on a stylesheet it doesn''t need yet, and isn''t told the hero
+  image is urgent.\n\n**The fix**\n\n```html\n<head>\n  <link rel=\"stylesheet\" href=\"./base.c...'
+state: OK
+trace_id: tr-5fc2f1830c3943cb2b18fd9d7123a927
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

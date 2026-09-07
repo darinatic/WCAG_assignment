@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+{% block title %}{{ issue.rule }} — Fix Assistant{% endblock %}
+{% block headmeta %}recipe: {{ recipe }}{% endblock %}
+{% block content %}
+
+<p class="muted" style="margin-top:0">
+  <a href="/page/{{ page.id }}">&larr; {{ issue.rule }} on {{ page.url }}</a>
+</p>
+
+<div class="card" style="margin-bottom:1rem">
+  <strong><code>{{ issue.rule }}</code></strong> — {{ issue.help }}
+  {% for t in sc_tags %}<span class="tag sc">{{ t }}</span>{% endfor %}
+  <span class="tag {{ 'generic' if recipe == 'fallback' else 'recipe' }}">recipe: {{ recipe }}</span>
+  <pre style="margin:.6rem 0 0">{{ issue.node_html }}</pre>
+  <p class="muted mono" style="margin:.4rem 0 0">{{ issue.node_selector or issue.target }}</p>
+</div>
+
+{% if not has_key %}
+<p class="notice"><strong>ANTHROPIC_API_KEY is not set</strong>, so the assistant
+cannot answer. Everything else on this page — the recipe, the retrieval, the
+assembled context — still works and is visible in the inspector.</p>
+{% endif %}
+
+<div class="split">
+
+  <!-- ============ left: conversation ============ -->
+  <div>
+    <div class="card" style="min-height:20rem">
+      <div style="display:flex;align-items:baseline">
+        <h2 style="margin:0">Answer</h2>
+        <span class="meta muted" id="timing" style="margin-left:auto;font-size:.8rem"></span>
+      </div>
+      <div id="citations" style="margin:.6rem 0"></div>
+      <div id="transcript">
+        {% for m in messages %}
+          <div class="turn {{ m.role }}">
+            <div class="muted mono" style="font-size:.75rem;margin-top:.8rem">{{ m.role }}</div>
+            <div class="body">{{ m.content }}</div>
+          </div>
+        {% endfor %}
+      </div>
+      <div id="live"></div>
+      <div id="toolrun" class="muted mono" style="font-size:.78rem"></div>
+    </div>
+
+    <div class="card">
+      <form id="ask" onsubmit="return send(event)">
+        <input type="text" id="msg" style="min-width:70%"
+               placeholder="Follow up — e.g. what if I use aria-label instead?">
+        <button class="primary" type="submit" id="sendbtn">Send</button>
+      </form>
+      <p class="muted" style="margin:.6rem 0 0;font-size:.82rem">
+        The first answer makes <strong>zero tool calls</strong> — the recipe already
+        pre-fetched what this issue needs. Follow-ups unlock tools, because an
+        unpredictable question cannot be pre-fetched for.
+      </p>
+      <form method="post" action="/issue/{{ issue.id }}/reset" style="margin-top:.5rem">
+        <button type="submit">Reset conversation</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ right: context inspector ============ -->
+  <div>
+    <div class="card">
+      <h2 style="margin-top:0">Context Inspector</h2>
+      <p class="muted" style="margin-top:0;font-size:.82rem">
+        What the model actually received this turn, rendered from the same
+        <code>ContextBundle</code> that is logged to MLflow — so it cannot drift
+        from reality.
+      </p>
+      <div id="tabs">
+        <button onclick="tab('prompt')" id="t-prompt" class="primary">Prompt</button>
+        <button onclick="tab('retrieval')" id="t-retrieval">Retrieval</button>
+        <button onclick="tab('tools')" id="t-tools">Tools</button>
+      </div>
+      <div id="pane" style="margin-top:.8rem">
+        <p class="muted">Ask something to populate the inspector.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #transcript .body, #live { white-space:pre-wrap; }
+  #live pre, #transcript pre { background:var(--code); }
+  .blk { border:1px solid var(--line); border-radius:4px; margin-bottom:.5rem; }
+  .blk > summary { cursor:pointer; padding:.4rem .6rem; font-size:.82rem;
+                   display:flex; gap:.5rem; align-items:center; }
+  .blk > summary::-webkit-details-marker { color:var(--muted); }
+  .blk pre { margin:0; border-top:1px solid var(--line); border-radius:0 0 4px 4px; }
+  .blk.dropped { opacity:.65; background:#fffaf5; }
+  .kindtag { font-family:var(--mono); font-size:.7rem; padding:.05rem .35rem;
+             border-radius:3px; background:var(--panel); border:1px solid var(--line); }
+  .kind-spec_normative { background:#eaf1fb; border-color:#c3d8f2; color:var(--accent); }
+  .kind-page_evidence  { background:#eef7f0; border-color:#c9e4d2; color:var(--good); }
+  .kind-spec_advisory  { background:#f7f4fb; border-color:#ddd2ee; color:#5b3f8a; }
+  .kind-tool_result    { background:#fdf3e6; border-color:#f0d9b5; color:var(--warn); }
+  .toks { margin-left:auto; color:var(--muted); font-family:var(--mono); font-size:.75rem; }
+  .bar { height:6px; background:var(--panel); border-radius:3px; overflow:hidden; margin:.2rem 0 .5rem; }
+  .bar > i { display:block; height:100%; background:var(--accent); }
+  .cit { display:inline-block; margin:0 .3rem .3rem 0; padding:.15rem .45rem;
+         border-radius:3px; font-size:.76rem; font-family:var(--mono); border:1px solid; }
+  .cit.supported  { background:#eef7f0; border-color:#c9e4d2; color:var(--good); }
+  .cit.partial    { background:#fdf3e6; border-color:#f0d9b5; color:var(--warn); }
+  .cit.unsupported,.cit.fabricated { background:#fdecea; border-color:#f3c6c1; color:var(--bad); }
+  .cit.unchecked  { background:var(--panel); border-color:var(--line); color:var(--muted); }
+</style>
+
+<script>
+const ISSUE_ID = {{ issue.id }};
+let LAST = { bundle:null, tools:[], citations:[] };
+let CUR = 'prompt';
+
+function esc(s){ return (s||'').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+// Minimal markdown: fenced code, inline code, bold, headings. Enough to read an
+// answer without pulling in a rendering library the brief told us not to build.
+function md(s){
+  let out = esc(s);
+  out = out.replace(/```(\w*)\n([\s\S]*?)```/g, (m,l,c)=>`<pre>${c}</pre>`);
+  out = out.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+  out = out.replace(/^\*\*(.+?)\*\*/gm, '<strong>$1</strong>');
+  out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  return out;
+}
+
+function tab(name){
+  CUR = name;
+  for (const t of ['prompt','retrieval','tools'])
+    document.getElementById('t-'+t).className = (t===name ? 'primary' : '');
+  render();
+}
+
+function render(){
+  const pane = document.getElementById('pane');
+  const b = LAST.bundle;
+  if (!b) { pane.innerHTML = '<p class="muted">Ask something to populate the inspector.</p>'; return; }
+
+  if (CUR === 'prompt') {
+    const inc = b.blocks.filter(x=>x.included);
+    const drop = b.blocks.filter(x=>!x.included);
+    let h = `<p class="muted" style="font-size:.82rem">${inc.length} blocks sent,
+             ${b.total_tokens.toLocaleString()} est. tokens`;
+    if (b.input_tokens) h += ` &middot; <strong>${b.input_tokens.toLocaleString()} measured</strong>
+             (count_tokens; estimator drift ${(b.input_tokens-b.total_tokens>=0?'+':'')}${b.input_tokens-b.total_tokens})`;
+    h += `</p>`;
+
+    // Allocation and what it actually cost. Same story as the blocks below - what
+    // fit, what was dropped, what it was billed at - so it reads as one pane.
+    h += '<table><tr><th>Budget</th><th>Used</th><th>Allocated</th><th></th></tr>';
+    for (const [k,v] of Object.entries(b.budget||{})) {
+      const pct = Math.min(100, Math.round(100*v.used/Math.max(1,v.allocated)));
+      h += `<tr><td class="mono">${k}</td><td class="mono">${v.used}</td>
+            <td class="mono">${v.allocated}</td>
+            <td style="width:35%"><div class="bar"><i style="width:${pct}%"></i></div></td></tr>`;
+    }
+    h += '</table><table style="margin-top:.6rem">';
+    h += `<tr><th>Measured prompt tokens <span class="muted">(count_tokens)</span></th>
+              <td class="mono">${b.input_tokens ?? '—'}</td></tr>`;
+    h += `<tr><th>Billed as fresh input <span class="muted">(excludes cache)</span></th>
+              <td class="mono">${b.billed_input_tokens ?? '—'}</td></tr>`;
+    h += `<tr><th>Output tokens</th><td class="mono">${b.output_tokens ?? '—'}</td></tr>`;
+    h += `<tr><th>Cache <strong>read</strong> tokens</th>
+              <td class="mono">${b.cache_read_tokens ?? '—'}</td></tr>`;
+    h += `<tr><th>Cache write tokens</th><td class="mono">${b.cache_write_tokens ?? '—'}</td></tr>`;
+    h += `<tr><th>Recipe</th><td class="mono">${esc(b.recipe||'—')}</td></tr>`;
+    h += `<tr><th>Model <span class="muted">(routed by grounding)</span></th>
+              <td class="mono">${esc(b.model||'—')}</td></tr>`;
+    h += '</table><p class="muted" style="font-size:.82rem">Cache read tokens are the'
+       + ' measurement behind the caching claim: on follow-up turns the page context'
+       + ' should be read from cache rather than re-billed. A zero here on turn 2+'
+       + ' means the prefix is being invalidated somewhere.</p>';
+
+    h += `<h3 style="font-size:.9rem;margin:1rem 0 .4rem">Blocks sent (${inc.length})</h3>`;
+    for (const blk of inc) {
+      h += `<details class="blk"><summary>
+              <span class="kindtag kind-${blk.kind}">${blk.kind}</span>
+              ${esc(blk.label)}
+              ${blk.cache_breakpoint?'<span class="tag">cache bp</span>':''}
+              <span class="toks">${blk.token_count} tok</span>
+            </summary><pre>${esc(blk.content)}</pre></details>`;
+    }
+    if (drop.length) {
+      h += `<h3 style="font-size:.9rem;margin:1rem 0 .4rem">Dropped (${drop.length})</h3>
+            <p class="muted" style="font-size:.8rem;margin-top:0">Showing what was cut
+            is more revealing than showing what was kept.</p>`;
+      for (const blk of drop) {
+        h += `<details class="blk dropped"><summary>
+                <span class="kindtag kind-${blk.kind}">${blk.kind}</span>
+                ${esc(blk.label)}
+                <span class="toks">${blk.token_count} tok</span>
+              </summary>
+              <pre>DROPPED: ${esc(blk.drop_reason||'')}\n\n${esc(blk.content)}</pre></details>`;
+      }
+    }
+    if (b.notes && b.notes.length)
+      h += `<p class="notice" style="margin-top:.8rem;font-size:.82rem">${b.notes.map(esc).join('<br>')}</p>`;
+    pane.innerHTML = h;
+
+  } else if (CUR === 'retrieval') {
+    const specs = b.blocks.filter(x=>x.kind.startsWith('spec_'));
+    let h = `<p class="muted" style="font-size:.82rem">Normative chunks come from the
+             deterministic anchor (axe rule &rarr; WCAG tag &rarr; exact criterion).
+             Advisory chunks come from hybrid BM25 + dense retrieval.</p>
+             <table><tr><th>Kind</th><th>Source</th><th>Label</th><th>Tok</th><th>Sent</th></tr>`;
+    for (const s of specs) {
+      h += `<tr><td><span class="kindtag kind-${s.kind}">${s.kind.replace('spec_','')}</span></td>
+            <td class="mono">${esc(s.source)}</td><td>${esc(s.label)}</td>
+            <td class="mono">${s.token_count}</td>
+            <td>${s.included?'yes':'<span class="muted">dropped</span>'}</td></tr>`;
+    }
+    pane.innerHTML = h + '</table>';
+
+  } else {
+    if (!LAST.tools.length) {
+      pane.innerHTML = `<p class="muted">No tool calls this turn.</p>
+        <p class="muted" style="font-size:.82rem">Expected on the first turn: the
+        recipe pre-fetched everything, so the answer costs one round trip. Ask a
+        follow-up to see tools engage.</p>`;
+    } else {
+      let h = '<table><tr><th>Tool</th><th>Status</th><th>ms</th><th>Arguments</th></tr>';
+      for (const t of LAST.tools) {
+        const bad = t.status !== 'ok';
+        h += `<tr><td class="mono">${esc(t.name)}</td>
+              <td class="${bad?'impact-serious':''}">${esc(t.status)}</td>
+              <td class="mono">${t.elapsed_ms}</td>
+              <td><pre style="margin:0">${esc(JSON.stringify(t.arguments))}</pre></td></tr>`;
+      }
+      pane.innerHTML = h + '</table>';
+    }
+  }
+}
+
+function send(e){
+  e.preventDefault();
+  const input = document.getElementById('msg');
+  const msg = input.value.trim();
+  input.value = '';
+  document.getElementById('sendbtn').disabled = true;
+
+  const live = document.getElementById('live');
+  const tr = document.getElementById('transcript');
+  if (msg) tr.insertAdjacentHTML('beforeend',
+    `<div class="muted mono" style="font-size:.75rem;margin-top:.8rem">you</div><div>${esc(msg)}</div>`);
+  live.innerHTML = '<div class="muted mono" style="font-size:.75rem;margin-top:.8rem">assistant</div>';
+  document.getElementById('toolrun').textContent = '';
+  document.getElementById('citations').innerHTML = '';
+
+  let buf = '';
+  const t0 = performance.now();
+  let firstToken = null;
+  const es = new EventSource(`/issue/${ISSUE_ID}/stream?message=${encodeURIComponent(msg)}`);
+
+  es.onmessage = (ev) => {
+    const d = JSON.parse(ev.data);
+    if (d.type === 'bundle') { LAST.bundle = d.bundle; LAST.tools = []; render(); }
+    else if (d.type === 'token') {
+      if (firstToken === null) {
+        firstToken = Math.round(performance.now() - t0);
+        document.getElementById('timing').textContent = `first token ${firstToken}ms`;
+      }
+      buf += d.text;
+      live.innerHTML = '<div class="muted mono" style="font-size:.75rem;margin-top:.8rem">assistant</div>' + md(buf);
+    }
+    else if (d.type === 'tool') {
+      LAST.tools.push(d);
+      document.getElementById('toolrun').textContent =
+        LAST.tools.map(t=>`${t.name} → ${t.status} (${t.elapsed_ms}ms)`).join('   ·   ');
+      if (CUR === 'tools') render();
+    }
+    else if (d.type === 'done') {
+      LAST.bundle = d.bundle; LAST.tools = d.tools; LAST.citations = d.citations;
+      document.getElementById('timing').textContent =
+        `first token ${firstToken}ms · total ${d.elapsed_ms}ms`;
+      const c = document.getElementById('citations');
+      if (d.citations.length) {
+        c.innerHTML = '<span class="muted" style="font-size:.78rem">citations checked: </span>' +
+          d.citations.map(x =>
+            `<span class="cit ${x.verdict}" title="${esc(x.explanation)}">${esc(x.raw)} ${x.verdict}</span>`
+          ).join('');
+      } else {
+        c.innerHTML = '<span class="muted" style="font-size:.78rem">no citations in this answer</span>';
+      }
+      render();
+    }
+    else if (d.type === 'error') {
+      live.insertAdjacentHTML('beforeend',
+        `<p class="notice">Error: ${esc(d.message)}</p>`);
+    }
+    else if (d.type === 'end') {
+      es.close();
+      document.getElementById('sendbtn').disabled = false;
+      tr.insertAdjacentHTML('beforeend', live.innerHTML);
+      live.innerHTML = '';
+    }
+  };
+  es.onerror = () => {
+    es.close();
+    document.getElementById('sendbtn').disabled = false;
+  };
+  return false;
+}
+
+// Auto-run the first turn when the conversation is empty.
+window.addEventListener('load', () => {
+  {% if not messages and has_key %}
+  document.getElementById('msg').value = '';
+  send(new Event('submit'));
+  {% endif %}
+});
+</script>
+{% endblock %}

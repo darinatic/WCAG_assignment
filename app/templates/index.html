@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block headmeta %}model: {{ model }} &middot; tracing: {{ "on" if tracing else "off" }}{% endblock %}
+{% block content %}
+
+{% if not has_key %}
+<p class="notice"><strong>No ANTHROPIC_API_KEY.</strong> Scanning and the context
+inspector work without it; the AI explanation path needs it. Copy
+<code>.env.example</code> to <code>.env</code> and add your key.</p>
+{% endif %}
+
+<div class="card">
+  <h2 style="margin-top:0">Scan a page</h2>
+  <form method="post" action="/scan">
+    <input type="text" name="target" list="fx"
+           placeholder="https://example.gov  — or a fixture name" required>
+    <datalist id="fx">
+      {% for f in fixtures %}<option value="{{ f }}">{% endfor %}
+    </datalist>
+    <button class="primary" type="submit">Scan</button>
+  </form>
+  <p class="muted" style="margin-bottom:0">
+    Fixtures are deliberately-broken local pages, served over HTTP so Resource
+    Timing and LCP are real. They back the eval suite, so results are reproducible.
+    Try <code>gov-homepage.html</code>.
+  </p>
+</div>
+
+<h2>Previously scanned</h2>
+{% if pages %}
+<table>
+  <tr><th>#</th><th>URL</th><th>Content hash</th><th>Issues</th><th>DOM nodes</th><th>Scanned</th></tr>
+  {% for p in pages %}
+  <tr>
+    <td><a href="/page/{{ p.id }}">{{ p.id }}</a></td>
+    <td><a href="/page/{{ p.id }}">{{ p.url }}</a></td>
+    <td><span class="tag">{{ p.content_hash }}</span></td>
+    <td>{{ p.issue_count }}</td>
+    <td class="muted">{{ p.dom_node_count }}</td>
+    <td class="muted">{{ p.scanned_at[:19] if p.scanned_at else "" }}</td>
+  </tr>
+  {% endfor %}
+</table>
+<p class="muted">The page index is keyed by <code>(url, content_hash)</code>, so a
+re-scan of unchanged markup reuses the existing index instead of duplicating it.</p>
+{% else %}
+<p class="muted">Nothing scanned yet.</p>
+{% endif %}
+{% endblock %}

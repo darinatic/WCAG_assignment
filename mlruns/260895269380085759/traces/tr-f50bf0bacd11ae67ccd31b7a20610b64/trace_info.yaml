@@ -1,0 +1,30 @@
+execution_duration_ms: 19789
+request_preview: '{"user_message": "Explain this issue and give me the fix for my
+  page.", "context_tokens": 1923, "context_preview": "# THE REQUIREMENT\n\nNo WCAG
+  success criterion applies to this issue - it is a performance\nfinding, not a conformance
+  failure. There is no normative source here, so\nthe supporting material below carries
+  less authority than usual. Say so if\nthe developer''s question turns on whether
+  something is required.\n\n# EVIDENCE FROM THIS PAGE\n\n## LCP chain (element + blockers)\nLCP:
+  76ms  (Core Web Vitals ''good'' threshold: 2500ms)\nLCP element: <img>  body > main
+  > section:nth-of-type(1) > img\nLCP resource: http://127.0.0.1:8000/fixtures/hero-riverfront.png\n  transfer
+  size: 1,043,802 bytes\n  decoded size:  1,043,502 bytes\n  discovered at: 15ms,
+  took 22ms\n\nLCP element markup:\n  <img src=\"./hero-riverfront.png\" class=\"hero-img\"
+  width=\"1200\" height=\"500\">\n  loading=(not set)  fetchpriority=(not set)\n\nRender-blocking
+  resources in <head>, in document order:\n  [...'
+request_time: '2026-09-07T15:26:43.364Z'
+response_preview: '{"answer": "**What''s wrong** — Your actual LCP time (76ms) is
+  well under the \"good\" threshold (2500ms), so nothing here fails a target. But
+  two things in the evidence are real waste: `print.css` is marked render-blocking
+  with no `media` attribute, meaning the browser treats it as applying to all output
+  and delays first paint for a stylesheet that should only matter when someone prints
+  the page. Separately, the hero image is over 1MB for a 1200×500 display size, with
+  almost no gap between transfer size and decoded size — it''s not being compressed
+  effectively.\n\n**Who it affects** — Every visitor pays the print.css blocking cost
+  on initial render, and every visitor on a slow or metered connection pays for",
+  "tool_calls": 0}'
+state: OK
+trace_id: tr-f50bf0bacd11ae67ccd31b7a20610b64
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

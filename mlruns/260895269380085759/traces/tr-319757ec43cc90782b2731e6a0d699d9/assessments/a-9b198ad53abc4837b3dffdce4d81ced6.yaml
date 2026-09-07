@@ -1,0 +1,16 @@
+assessment_id: a-9b198ad53abc4837b3dffdce4d81ced6
+assessment_name: must_mention_any
+create_time: '2026-09-07T15:27:58.469Z'
+expectation:
+  serialized_value:
+    serialization_format: JSON_FORMAT
+    value: '["24px", "18.66", "large", "still", "no"]'
+last_update_time: '2026-09-07T15:27:58.469Z'
+metadata:
+  mlflow.assessment.sourceRunId: 3ad0cd3046cc482c805fc0baaf56f156
+source:
+  source_id: User
+  source_type: HUMAN
+span_id: 4ab112d9266c6639
+trace_id: tr-319757ec43cc90782b2731e6a0d699d9
+valid: true

@@ -1,0 +1,14 @@
+assessment_id: a-f9924983998b4f5db18ec893c62dd373
+assessment_name: recipe
+create_time: '2026-09-07T15:28:08.756Z'
+expectation:
+  value: naming
+last_update_time: '2026-09-07T15:28:08.756Z'
+metadata:
+  mlflow.assessment.sourceRunId: 3ad0cd3046cc482c805fc0baaf56f156
+source:
+  source_id: User
+  source_type: HUMAN
+span_id: fb34799f2cdadf17
+trace_id: tr-104ce98f048a5b314b2c4afb5654c4fc
+valid: true

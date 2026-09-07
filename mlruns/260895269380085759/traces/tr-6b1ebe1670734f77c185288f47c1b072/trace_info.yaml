@@ -1,0 +1,9 @@
+execution_duration_ms: 112
+request_time: '2026-09-07T15:26:42.329Z'
+response_preview: '{"recipe": "contrast", "blocks": ["Contrast facts (computed)"]}'
+state: OK
+trace_id: tr-6b1ebe1670734f77c185288f47c1b072
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

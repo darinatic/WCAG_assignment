@@ -1,0 +1,15 @@
+execution_duration_ms: 64
+request_preview: '{"query": "link-name Links must have discernible text"}'
+request_time: '2026-09-07T15:27:43.622Z'
+response_preview: '{"hits": [{"id": "tech:F89:1", "flavour": "technique", "score":
+  0.03227, "title": "Technique F89 — Description"}, {"id": "tech:F89:5", "flavour":
+  "technique", "score": 0.02986, "title": "Technique F89 — Procedure"}, {"id": "tech:F89:4",
+  "flavour": "technique", "score": 0.02963, "title": "Technique F89 — Related Techniques"},
+  {"id": "und:2.4.4:12", "flavour": "understanding", "score": 0.02908, "title": "Understanding
+  SC 2.4.4 — Sufficient Techniques"}]}'
+state: OK
+trace_id: tr-010010b0922a3a30f6efc353c87434fc
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

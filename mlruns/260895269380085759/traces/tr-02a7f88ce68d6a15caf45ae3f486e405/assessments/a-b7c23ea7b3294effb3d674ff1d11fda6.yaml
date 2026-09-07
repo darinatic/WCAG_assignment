@@ -1,0 +1,14 @@
+assessment_id: a-b7c23ea7b3294effb3d674ff1d11fda6
+assessment_name: scope_refusal
+create_time: '2026-09-07T15:28:08.947Z'
+expectation:
+  value: true
+last_update_time: '2026-09-07T15:28:08.947Z'
+metadata:
+  mlflow.assessment.sourceRunId: 3ad0cd3046cc482c805fc0baaf56f156
+source:
+  source_id: User
+  source_type: HUMAN
+span_id: a7f270582e2babf3
+trace_id: tr-02a7f88ce68d6a15caf45ae3f486e405
+valid: true

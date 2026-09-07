@@ -1,0 +1,15 @@
+assessment_id: a-3d4341587f5b4c87b66986829b8cf9e9
+assessment_name: notes
+create_time: '2026-09-07T15:28:02.914Z'
+expectation:
+  value: The brief's 'cryptic' case. aria-checked is not allowed on role=button. A
+    correct fix either drops the attribute or changes the role to switch/checkbox.
+last_update_time: '2026-09-07T15:28:02.914Z'
+metadata:
+  mlflow.assessment.sourceRunId: 3ad0cd3046cc482c805fc0baaf56f156
+source:
+  source_id: User
+  source_type: HUMAN
+span_id: e4baf536b2f48f5e
+trace_id: tr-1e2ca75b90f3ac6a3df9298aecc8face
+valid: true

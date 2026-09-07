@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Issues — {{ page.url }}{% endblock %}
+{% block headmeta %}hash {{ page.content_hash }}{% endblock %}
+{% block content %}
+
+<p class="muted" style="margin-top:0">
+  <a href="/">&larr; all scans</a>
+</p>
+
+<div class="card">
+  <h2 style="margin-top:0">{{ page.url }}</h2>
+  <p class="muted" style="margin:0">
+    {{ issues|length }} issues &middot; {{ page.dom_node_count }} DOM nodes
+    ({{ page.indexed_node_count }} indexed) &middot; scanned {{ page.scanned_at[:19] }}
+    &middot; content hash <span class="tag">{{ page.content_hash }}</span>
+  </p>
+  {% if perf.lcp %}
+  <p class="muted" style="margin:.4rem 0 0">
+    LCP {{ perf.lcp.value_ms }}ms on <code>&lt;{{ perf.lcp.element_tag }}&gt;</code>
+    &middot; {{ perf.render_blocking|length }} render-blocking resources in &lt;head&gt;
+  </p>
+  {% endif %}
+  <p style="margin:.7rem 0 0">
+    <a href="/api/page/{{ page.id }}/rescan"><button>Re-scan page</button></a>
+    <span class="muted" style="margin-left:.5rem">
+      Re-scan is a button, not a model tool — it costs 30s+ of your time, so the
+      assistant cannot trigger it on its own initiative.
+    </span>
+  </p>
+</div>
+
+<h2>Detected issues</h2>
+<table>
+  <tr>
+    <th>Rule</th><th>Impact</th><th>Criterion</th><th>Context recipe</th>
+    <th>Element</th><th></th>
+  </tr>
+  {% for i in issues %}
+  <tr>
+    <td><code>{{ i.rule }}</code><br><span class="muted">{{ i.help }}</span></td>
+    <td class="impact-{{ i.impact }}">{{ i.impact or "—" }}</td>
+    <td>
+      {% if i.sc_tags %}
+        {% for t in i.sc_tags %}<span class="tag sc">{{ t }}</span> {% endfor %}
+      {% else %}
+        <span class="muted">none</span>
+      {% endif %}
+    </td>
+    <td>
+      <span class="tag {{ 'generic' if i.recipe == 'fallback' else 'recipe' }}">
+        {{ i.recipe }}
+      </span>
+    </td>
+    <td class="mono" style="max-width:22rem;overflow:hidden;text-overflow:ellipsis">
+      {{ i.node_selector or i.target }}
+    </td>
+    <td><a href="/issue/{{ i.id }}"><button>Explain &amp; fix</button></a></td>
+  </tr>
+  {% endfor %}
+</table>
+
+<p class="muted">
+  <strong>Criterion</strong> comes from axe's own WCAG tags, so it is a lookup rather
+  than a model guess. <strong>Context recipe</strong> is which extraction strategy
+  will run for that issue class — <span class="tag generic">fallback</span> means no
+  dedicated recipe, and the assistant will say so.
+</p>
+{% endblock %}

@@ -1,0 +1,16 @@
+assessment_id: a-8e8174a2959c47ab95e57fad779f9833
+assessment_name: notes
+create_time: '2026-09-07T15:26:50.335Z'
+expectation:
+  value: Bold at 16px does not reach the WCAG large-text threshold (needs 18.66px
+    bold or 24px), so the 4.5:1 requirement stands. Tests whether the model uses the
+    computed threshold rather than a vague recollection.
+last_update_time: '2026-09-07T15:26:50.335Z'
+metadata:
+  mlflow.assessment.sourceRunId: c1603ad6e57b4f07846ffd54827bc3b7
+source:
+  source_id: User
+  source_type: HUMAN
+span_id: 1bb5ec9b4676887e
+trace_id: tr-e9816c528c62cd9ffc83176c5364058a
+valid: true

@@ -1,0 +1,13 @@
+digest: a4336849
+name: dataset
+profile: '{"num_rows": 8, "num_elements": 16}'
+schema: '{"mlflow_colspec": [{"type": "object", "properties": {"case_id": {"type":
+  "string", "required": true}}, "name": "inputs", "required": true}, {"type": "object",
+  "properties": {"criterion": {"type": "string", "required": false}, "must_mention_any":
+  {"type": "array", "items": {"type": "string"}, "required": false}, "must_not_mention":
+  {"type": "array", "items": {"type": "string"}, "required": false}, "notes": {"type":
+  "string", "required": true}, "recipe": {"type": "string", "required": true}, "scope_refusal":
+  {"type": "boolean", "required": false}}, "name": "expectations", "required": true}]}'
+source: '{"tags": {"mlflow.user": "User", "mlflow.source.name": "D:\\assignment\\evals\\run.py",
+  "mlflow.source.type": "LOCAL"}}'
+source_type: code

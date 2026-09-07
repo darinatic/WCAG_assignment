@@ -1,0 +1,14 @@
+assessment_id: a-2cb0ee57768a44bfa33b1302ff95ad0d
+assessment_name: collateral
+create_time: '2026-09-07T15:29:03.570Z'
+feedback:
+  value: 2.0
+last_update_time: '2026-09-07T15:29:03.570Z'
+metadata:
+  mlflow.assessment.sourceRunId: c314c62f61c140dabb4213ca0492e863
+source:
+  source_id: collateral
+  source_type: CODE
+span_id: 03e570d5d42ca485
+trace_id: tr-76612cc04887589fb9122b60aa6ed15e
+valid: true

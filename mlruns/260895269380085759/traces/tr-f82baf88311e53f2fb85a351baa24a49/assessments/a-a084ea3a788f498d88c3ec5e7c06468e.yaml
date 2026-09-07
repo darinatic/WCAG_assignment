@@ -1,0 +1,14 @@
+assessment_id: a-a084ea3a788f498d88c3ec5e7c06468e
+assessment_name: criterion
+create_time: '2026-09-07T15:27:55.003Z'
+expectation:
+  value: 2.4.4
+last_update_time: '2026-09-07T15:27:55.003Z'
+metadata:
+  mlflow.assessment.sourceRunId: 3ad0cd3046cc482c805fc0baaf56f156
+source:
+  source_id: User
+  source_type: HUMAN
+span_id: d9709cf4295eddd9
+trace_id: tr-f82baf88311e53f2fb85a351baa24a49
+valid: true

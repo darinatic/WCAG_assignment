@@ -1,0 +1,10 @@
+execution_duration_ms: 0
+request_preview: '{"sc_tags": ["wcag412"]}'
+request_time: '2026-09-07T15:28:59.076Z'
+response_preview: '{"sc_ids": ["4.1.2"], "normative": 1, "advisory": 6}'
+state: OK
+trace_id: tr-01f95d677b3d220f50890a5ad4feda79
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

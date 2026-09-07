@@ -1,0 +1,9 @@
+execution_duration_ms: 4
+request_time: '2026-09-07T15:29:03.451Z'
+response_preview: '{"recipe": "lcp", "blocks": ["LCP chain (element + blockers)"]}'
+state: OK
+trace_id: tr-81d7e85bb089ad72d8e16047a90dd242
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

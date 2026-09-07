@@ -1,0 +1,14 @@
+assessment_id: a-7d7755a392cd442b8586307a336c8858
+assessment_name: specificity
+create_time: '2026-09-07T15:29:19.308Z'
+feedback:
+  value: 1.0
+last_update_time: '2026-09-07T15:29:19.308Z'
+metadata:
+  mlflow.assessment.sourceRunId: c314c62f61c140dabb4213ca0492e863
+source:
+  source_id: specificity
+  source_type: CODE
+span_id: ad3d2a3bad22b56f
+trace_id: tr-ba75537b51985429d23101ba241bb329
+valid: true

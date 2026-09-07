@@ -1,0 +1,32 @@
+execution_duration_ms: 15444
+request_preview: '{"user_message": "Explain this issue and give me the fix for my
+  page.", "context_tokens": 1923, "context_preview": "# THE REQUIREMENT\n\nNo WCAG
+  success criterion applies to this issue - it is a performance\nfinding, not a conformance
+  failure. There is no normative source here, so\nthe supporting material below carries
+  less authority than usual. Say so if\nthe developer''s question turns on whether
+  something is required.\n\n# EVIDENCE FROM THIS PAGE\n\n## LCP chain (element + blockers)\nLCP:
+  76ms  (Core Web Vitals ''good'' threshold: 2500ms)\nLCP element: <img>  body > main
+  > section:nth-of-type(1) > img\nLCP resource: http://127.0.0.1:8000/fixtures/hero-riverfront.png\n  transfer
+  size: 1,043,802 bytes\n  decoded size:  1,043,502 bytes\n  discovered at: 15ms,
+  took 22ms\n\nLCP element markup:\n  <img src=\"./hero-riverfront.png\" class=\"hero-img\"
+  width=\"1200\" height=\"500\">\n  loading=(not set)  fetchpriority=(not set)\n\nRender-blocking
+  resources in <head>, in document order:\n  [...'
+request_time: '2026-09-07T15:27:54.662Z'
+response_preview: '{"answer": "**What''s wrong**\nTwo things stand out even though
+  the measured LCP (76ms) is fine: the LCP image is a 1,043,802-byte PNG loaded with
+  no priority hint, and `print.css` is marked render-blocking with no `media` attribute
+  — so it delays first paint for every visitor even though it only applies when printing.\n\n**Who
+  it affects**\nThis test ran on localhost with near-zero network latency, so the
+  76ms number won''t hold on a real connection — a 1MB image fetched over an actual
+  network, without being prioritized, will push LCP well past the \"good\" 2500ms
+  threshold. The unscoped `print.css` adds blocking time for everyone, on every load,
+  for a stylesheet almost nobody needs at page-load time.\n\n**The fix**\n\n```html\n<link
+  rel=\"stylesheet\" href=\"./print.css\" media=\"print\">\n\n<img src=\"./hero-riverfront.png\"
+  class=\"hero-img\"\n     width=\"1200\" height=\"500\"\n     fetchpriority=\"high\">\n```\n\nAlso
+  worth compressing/re-encoding `hero-riverfront.png` — 1MB for...'
+state: OK
+trace_id: tr-13fa339a34c4f9e9ecdc0bd7fed7e841
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

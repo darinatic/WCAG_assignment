@@ -1,0 +1,16 @@
+assessment_id: a-b1a13b084dd042cc925da3083ad1ebdd
+assessment_name: notes
+create_time: '2026-09-07T15:28:13.209Z'
+expectation:
+  value: No WCAG anchor exists for LCP, so the deterministic path returns nothing
+    and grounding leans on community sources. A good answer names the 1MB hero image
+    and/or the unnecessary render-blocking print.css.
+last_update_time: '2026-09-07T15:28:13.209Z'
+metadata:
+  mlflow.assessment.sourceRunId: 3ad0cd3046cc482c805fc0baaf56f156
+source:
+  source_id: User
+  source_type: HUMAN
+span_id: f2fea8c084f8794c
+trace_id: tr-13fa339a34c4f9e9ecdc0bd7fed7e841
+valid: true

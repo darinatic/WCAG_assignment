@@ -1,0 +1,17 @@
+assessment_id: a-b98c9643bee04ccfb3c717764c38231e
+assessment_name: notes
+create_time: '2026-09-07T15:27:54.194Z'
+expectation:
+  value: THE key context case. The element's own background is transparent; the real
+    background (#f2f2f2) is painted by section.news. An assistant assuming a white
+    page background computes 3.45:1 instead of 3.08:1 and recommends a colour that
+    still fails.
+last_update_time: '2026-09-07T15:27:54.194Z'
+metadata:
+  mlflow.assessment.sourceRunId: 3ad0cd3046cc482c805fc0baaf56f156
+source:
+  source_id: User
+  source_type: HUMAN
+span_id: fd33ea82c706d61b
+trace_id: tr-b74c17771281aeb1abafc0c207f17c86
+valid: true

@@ -1,0 +1,9 @@
+execution_duration_ms: 40
+request_time: '2026-09-07T15:26:31.877Z'
+response_preview: '{"recipe": "naming", "blocks": ["Failing element + naming context"]}'
+state: OK
+trace_id: tr-477f98ff795b4845055ffac82c1957c1
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

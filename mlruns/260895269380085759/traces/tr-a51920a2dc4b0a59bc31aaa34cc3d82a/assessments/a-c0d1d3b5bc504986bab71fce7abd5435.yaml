@@ -1,0 +1,16 @@
+assessment_id: a-c0d1d3b5bc504986bab71fce7abd5435
+assessment_name: must_mention_any
+create_time: '2026-09-07T15:26:43.302Z'
+expectation:
+  serialized_value:
+    serialization_format: JSON_FORMAT
+    value: '["figcaption", "capital budget", "public hearing", "Council"]'
+last_update_time: '2026-09-07T15:26:43.302Z'
+metadata:
+  mlflow.assessment.sourceRunId: c1603ad6e57b4f07846ffd54827bc3b7
+source:
+  source_id: User
+  source_type: HUMAN
+span_id: 1867e6e8230d063d
+trace_id: tr-a51920a2dc4b0a59bc31aaa34cc3d82a
+valid: true

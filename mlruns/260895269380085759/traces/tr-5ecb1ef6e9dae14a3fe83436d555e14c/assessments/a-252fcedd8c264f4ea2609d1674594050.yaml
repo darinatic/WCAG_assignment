@@ -1,0 +1,14 @@
+assessment_id: a-252fcedd8c264f4ea2609d1674594050
+assessment_name: fix
+create_time: '2026-09-07T15:27:53.837Z'
+feedback:
+  value: 1.0
+last_update_time: '2026-09-07T15:27:53.837Z'
+metadata:
+  mlflow.assessment.sourceRunId: 3ad0cd3046cc482c805fc0baaf56f156
+source:
+  source_id: fix
+  source_type: CODE
+span_id: 1bce03792e3a578e
+trace_id: tr-5ecb1ef6e9dae14a3fe83436d555e14c
+valid: true

@@ -1,0 +1,19 @@
+execution_duration_ms: 256
+request_preview: '{"query": "aria-allowed-attr Elements must only use supported ARIA
+  attributes"}'
+request_time: '2026-09-07T15:26:41.566Z'
+response_preview: '{"hits": [{"id": "html-aria:28:5860", "flavour": "normative", "score":
+  0.03178, "title": "ARIA in HTML (W3C Recommendation) — 4. Document conformance requirements
+  for use of ARIA attributes in HTML"}, {"id": "html-aria:32:5860", "flavour": "normative",
+  "score": 0.03175, "title": "ARIA in HTML (W3C Recommendation) — 4. Document conformance
+  requirements for use of ARIA attributes in HTML"}, {"id": "html-aria:21:5860", "flavour":
+  "normative", "score": 0.02985, "title": "ARIA in HTML (W3C Recommendation) — 4.
+  Document conformance requirements for use of ARIA attributes in HTML"}, {"id": "html-aria:35:5860",
+  "flavour": "normative", "score": 0.02946, "title": "ARIA in HTML (W3C Recommendation)
+  — 4. Document conformance requirements for use of ARIA attributes in HTML"}]}'
+state: OK
+trace_id: tr-4a2cda2f2ce8dfeb1c270dc8d44edf3c
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

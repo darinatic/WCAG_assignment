@@ -1,0 +1,15 @@
+execution_duration_ms: 16
+request_preview: '{"query": "image-alt Images must have alternative text"}'
+request_time: '2026-09-07T15:29:06.284Z'
+response_preview: '{"hits": [{"id": "tech:H37:1", "flavour": "technique", "score":
+  0.03252, "title": "Technique H37 — Description"}, {"id": "tech:F89:3", "flavour":
+  "technique", "score": 0.03175, "title": "Technique F89 — Related Resources"}, {"id":
+  "tech:F65:1", "flavour": "technique", "score": 0.03102, "title": "Technique F65
+  — Description"}, {"id": "tech:F65:4", "flavour": "technique", "score": 0.03012,
+  "title": "Technique F65 — Related Techniques"}]}'
+state: OK
+trace_id: tr-ccc935eac2cadd836d2b1aae0c43c4de
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

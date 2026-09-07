@@ -1,0 +1,9 @@
+execution_duration_ms: 39
+request_time: '2026-09-07T15:27:53.559Z'
+response_preview: '{"recipe": "aria", "blocks": ["Role graph around the failing element"]}'
+state: OK
+trace_id: tr-8aed36ec3da33d41e2858da238576b20
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

@@ -1,0 +1,14 @@
+assessment_id: a-0501e53c03ea42598a97c46333adbe86
+assessment_name: scope
+create_time: '2026-09-07T15:29:03.899Z'
+feedback:
+  value: 2.0
+last_update_time: '2026-09-07T15:29:03.899Z'
+metadata:
+  mlflow.assessment.sourceRunId: c314c62f61c140dabb4213ca0492e863
+source:
+  source_id: scope
+  source_type: CODE
+span_id: 651ccd55b70a97d1
+trace_id: tr-f48e96259b96f489207a3aa050120d35
+valid: true

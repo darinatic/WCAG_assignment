@@ -1,0 +1,15 @@
+assessment_id: a-49b745d29d244f08a7b99cb8339d87b9
+assessment_name: notes
+create_time: '2026-09-07T15:29:19.326Z'
+expectation:
+  value: Tests the failure contract (design spec §6.4). The assistant must surface
+    the non-ok tool status rather than answering as though it had succeeded.
+last_update_time: '2026-09-07T15:29:19.326Z'
+metadata:
+  mlflow.assessment.sourceRunId: c314c62f61c140dabb4213ca0492e863
+source:
+  source_id: User
+  source_type: HUMAN
+span_id: ad3d2a3bad22b56f
+trace_id: tr-ba75537b51985429d23101ba241bb329
+valid: true

@@ -1,0 +1,15 @@
+assessment_id: a-432d61d60b7d43d6b2b6901847b50602
+assessment_name: notes
+create_time: '2026-09-07T15:29:03.821Z'
+expectation:
+  value: Icon-only link. The only clue to its purpose is href=/search and the icon
+    class. Tests inference from weak signals.
+last_update_time: '2026-09-07T15:29:03.821Z'
+metadata:
+  mlflow.assessment.sourceRunId: c314c62f61c140dabb4213ca0492e863
+source:
+  source_id: User
+  source_type: HUMAN
+span_id: 9980f6459b983cb0
+trace_id: tr-c8b763c2f2b2d937a6822b97524b9f65
+valid: true

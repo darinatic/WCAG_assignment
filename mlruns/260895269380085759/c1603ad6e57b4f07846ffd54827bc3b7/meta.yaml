@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/assignment/mlruns/260895269380085759/c1603ad6e57b4f07846ffd54827bc3b7/artifacts
+end_time: 1788794826387
+entry_point_name: ''
+experiment_id: '260895269380085759'
+lifecycle_stage: active
+run_id: c1603ad6e57b4f07846ffd54827bc3b7
+run_name: selective-sheep-159
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1788794780125
+status: 3
+tags: []
+user_id: User

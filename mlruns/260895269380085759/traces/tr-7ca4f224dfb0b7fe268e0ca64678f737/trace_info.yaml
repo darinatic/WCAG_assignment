@@ -1,0 +1,17 @@
+execution_duration_ms: 1463
+request_time: '2026-09-07T15:26:36.860Z'
+response_preview: '{"verdicts": [{"raw": "[SC 2.4.4]", "identifier": "2.4.4", "kind":
+  "success_criterion", "in_retrieved_set": true, "verdict": "partial", "explanation":
+  "The source text describes two acceptable approaches (link text alone, or link text
+  plus programmatic context) but does not explicitly state that ''either approach''
+  satisfies the criterion, nor does it use the phrase ''programmatically determinable
+  name.''", "quoted_text": "The purpose of each link can be determined from the link
+  text alone or from the link text together with its programmatically determined link
+  context , except where the purpose of the link would be ambiguous to users in general
+  ."}]}'
+state: OK
+trace_id: tr-7ca4f224dfb0b7fe268e0ca64678f737
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

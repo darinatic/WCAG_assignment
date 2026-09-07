@@ -1,0 +1,37 @@
+# Pinned exactly. These are the versions this was built and evaluated against.
+#
+# Open `>=` ranges cost two production defects here: starlette 1.6 removed the
+# TemplateResponse(name, context) signature (every page 500'd) and mlflow 3.15
+# began refusing a filesystem tracking backend (tracing silently disabled). Both
+# arrived through a routine `pip install -r requirements.txt`, under a server that
+# was still running the older libraries - so the app looked healthy while being
+# broken on disk. A reviewer installing from scratch would have hit both on first
+# launch.
+
+fastapi==0.141.1
+# Pinned explicitly even though fastapi pulls it: fastapi's own range is wide, so
+# pinning fastapi alone does NOT pin this, and this is the one that broke.
+starlette==1.6.0
+uvicorn[standard]==0.52.4
+jinja2==3.1.6
+python-multipart==0.0.32
+pydantic==2.13.5
+
+python-dotenv==1.2.3
+anthropic==1.3.0
+mlflow==3.15.2
+
+sentence-transformers==6.0.1
+transformers==5.16.1
+rank-bm25==0.2.2
+numpy==2.4.6
+scikit-learn==1.9.0
+scipy==1.17.1
+
+httpx==0.28.1
+beautifulsoup4==4.15.0
+lxml==6.1.3
+
+# torch is deliberately NOT pinned here. Install it first, from the CPU index, as
+# the README says - otherwise pip resolves the default wheel as a dependency of
+# sentence-transformers. Built against torch 2.14.0+cpu.

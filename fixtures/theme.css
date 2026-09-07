@@ -1,0 +1,41 @@
+/* Fixture stylesheet 2 of 3.
+   The colour-contrast failure lives here on purpose:
+   .muted sets a foreground colour but NO background. The background it actually
+   sits on is painted by the .news ancestor (#f2f2f2), not by <body> (#ffffff).
+   An assistant that assumes "white background" computes the wrong ratio. */
+.news {
+  background: #f2f2f2;
+  padding: 1.5rem 2rem 2rem;
+  border-radius: 4px;
+}
+.news h2 { margin-top: 0; }
+.news-card { margin: 0 0 2rem; }
+.news-card img { max-width: 100%; height: auto; }
+.news-card figcaption { font-size: .9375rem; color: #333333; padding-top: .5rem; }
+
+/* 16px, normal weight -> WCAG 1.4.3 threshold is 4.5:1 */
+.muted {
+  color: #8a8a8a;
+  font-size: 16px;
+  font-weight: 400;
+}
+.readmore { color: #2f6fae; }
+
+.alerts { margin-top: 3rem; }
+.alert-toggle {
+  display: inline-block;
+  padding: .625rem 1rem;
+  background: #0b3d6b;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.alert-list { margin-top: 1rem; }
+.alert-list [role="listitem"] { padding: .25rem 0; }
+
+.contact { margin-top: 3rem; }
+.email-input { padding: .5rem; border: 1px solid #767676; min-width: 18rem; }
+.icon-link .icon-search {
+  display: inline-block; width: 20px; height: 20px;
+  background: #0b3d6b; border-radius: 50%;
+}

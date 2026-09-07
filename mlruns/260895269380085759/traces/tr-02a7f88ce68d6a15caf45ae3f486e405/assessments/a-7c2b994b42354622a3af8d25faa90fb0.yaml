@@ -1,0 +1,15 @@
+assessment_id: a-7c2b994b42354622a3af8d25faa90fb0
+assessment_name: notes
+create_time: '2026-09-07T15:28:08.951Z'
+expectation:
+  value: Adjacent question from the brief. Should decline briefly and redirect, without
+    lecturing and without answering the framework question.
+last_update_time: '2026-09-07T15:28:08.951Z'
+metadata:
+  mlflow.assessment.sourceRunId: 3ad0cd3046cc482c805fc0baaf56f156
+source:
+  source_id: User
+  source_type: HUMAN
+span_id: a7f270582e2babf3
+trace_id: tr-02a7f88ce68d6a15caf45ae3f486e405
+valid: true

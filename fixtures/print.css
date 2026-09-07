@@ -1,0 +1,10 @@
+/* Fixture stylesheet 3 of 3.
+   Deliberately has no media="print" attribute on its <link>, so it is
+   render-blocking even though nothing here affects the screen rendering.
+   This is the classic "cheap LCP win" the assistant should spot. */
+.site-header, .site-footer, .alerts, .contact { }
+@media print {
+  .site-header nav, .alert-toggle, .contact form { display: none; }
+  body { font-size: 11pt; color: #000000; background: #ffffff; }
+  a[href]::after { content: " (" attr(href) ")"; }
+}

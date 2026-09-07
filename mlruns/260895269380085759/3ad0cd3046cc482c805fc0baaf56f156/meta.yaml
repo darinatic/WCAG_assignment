@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/assignment/mlruns/260895269380085759/3ad0cd3046cc482c805fc0baaf56f156/artifacts
+end_time: 1788794894654
+entry_point_name: ''
+experiment_id: '260895269380085759'
+lifecycle_stage: active
+run_id: 3ad0cd3046cc482c805fc0baaf56f156
+run_name: tasteful-shrimp-918
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1788794852961
+status: 3
+tags: []
+user_id: User

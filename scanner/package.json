@@ -1,0 +1,12 @@
+{
+  "name": "a11y-scanner",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Playwright + axe-core scanner CLI. Runs once per page, writes JSON, exits.",
+  "dependencies": {
+    "axe-core": "^4.10.2",
+    "marked": "^18.0.11",
+    "playwright": "^1.49.0"
+  }
+}

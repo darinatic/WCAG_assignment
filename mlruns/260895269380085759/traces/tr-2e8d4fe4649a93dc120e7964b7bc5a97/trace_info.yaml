@@ -1,0 +1,20 @@
+execution_duration_ms: 1434
+request_time: '2026-09-07T15:26:37.597Z'
+response_preview: '{"verdicts": [{"raw": "[SC 1.4.3]", "identifier": "1.4.3", "kind":
+  "success_criterion", "in_retrieved_set": true, "verdict": "supported", "explanation":
+  "The source text explicitly states that visual presentation of text must have a
+  contrast ratio of at least 4.5:1, except for large text (3:1) and specified exceptions,
+  and 3.08:1 fails to meet the 4.5:1 requirement for normal-sized text.", "quoted_text":
+  "The visual presentation of text and images of text has a contrast ratio of at least
+  4.5:1, except for the following: Large Text Large-scale text and images of large-scale
+  text have a contrast ratio of at least 3:1; Incidental Text or images of text that
+  are part of an inactive user interface component , that are pure decoration , that
+  are not visible to anyone, or that are part of a picture that contains significant
+  other visual content, have no contrast requirement. Logotypes Text that is part
+  of a logo or brand name has no contrast requirement."}]}'
+state: OK
+trace_id: tr-2e8d4fe4649a93dc120e7964b7bc5a97
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

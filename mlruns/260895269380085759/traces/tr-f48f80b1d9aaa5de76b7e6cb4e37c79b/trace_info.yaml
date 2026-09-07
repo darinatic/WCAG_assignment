@@ -1,0 +1,21 @@
+execution_duration_ms: 1216
+request_time: '2026-09-07T15:29:12.089Z'
+response_preview: '{"verdicts": [{"raw": "[SC 1.1.1]", "identifier": "1.1.1", "kind":
+  "success_criterion", "in_retrieved_set": true, "verdict": "supported", "explanation":
+  "The source text directly states the requirement that ''All non-text content that
+  is presented to the user has a text alternative that serves the equivalent purpose,''
+  which matches the claim''s quotation.", "quoted_text": "All non-text content that
+  is presented to the user has a text alternative that serves the equivalent purpose,
+  except for the situations listed below. Controls, Input If non-text content is a
+  control or accepts user input, then it has a name that describes its purpose. (Refer
+  to Success Criterion 4.1.2 for additional requirements for controls and content
+  that accepts user input.) Time-Based Media If non-text content is time-based media,
+  then text alternatives at least provide descriptive identification of the non-text
+  content. (Refer to Guideline 1.2 for additional requirements for media.) Test If
+  non-text content is...'
+state: OK
+trace_id: tr-f48f80b1d9aaa5de76b7e6cb4e37c79b
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

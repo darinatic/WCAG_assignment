@@ -1,0 +1,17 @@
+execution_duration_ms: 54
+request_preview: '{"query": "color-contrast Elements must meet minimum color contrast
+  ratio thresholds"}'
+request_time: '2026-09-07T15:26:31.265Z'
+response_preview: '{"hits": [{"id": "und:1.4.3:8", "flavour": "understanding", "score":
+  0.03202, "title": "Understanding SC 1.4.3 — Rationale for the Ratios Chosen"}, {"id":
+  "und:1.4.3:13", "flavour": "understanding", "score": 0.02944, "title": "Understanding
+  SC 1.4.3 — Benefits"}, {"id": "term:dfn-contrast-ratio", "flavour": "normative",
+  "score": 0.02867, "title": "Definition: contrast ratio"}, {"id": "und:1.4.3:2",
+  "flavour": "understanding", "score": 0.02826, "title": "Understanding SC 1.4.3 —
+  Intent"}]}'
+state: OK
+trace_id: tr-a89b383abea6f1b1286d9417aa4f510a
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

@@ -1,0 +1,16 @@
+assessment_id: a-f3616aec432b494c9d7bc41a7d2d7d5f
+assessment_name: notes
+create_time: '2026-09-07T15:29:03.822Z'
+expectation:
+  value: The alt text should be derived from the figcaption on this page, not invented.
+    Tests whether the naming recipe's nearby-text extraction actually reaches the
+    model.
+last_update_time: '2026-09-07T15:29:03.822Z'
+metadata:
+  mlflow.assessment.sourceRunId: c314c62f61c140dabb4213ca0492e863
+source:
+  source_id: User
+  source_type: HUMAN
+span_id: 03e570d5d42ca485
+trace_id: tr-76612cc04887589fb9122b60aa6ed15e
+valid: true

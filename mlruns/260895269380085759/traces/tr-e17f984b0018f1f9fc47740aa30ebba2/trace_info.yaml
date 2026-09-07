@@ -1,0 +1,17 @@
+execution_duration_ms: 1260
+request_preview: '{"query": "Could I just make the text bold instead of changing the
+  colour?"}'
+request_time: '2026-09-07T15:26:40.508Z'
+response_preview: '{"hits": [{"id": "tech:G18:1", "flavour": "technique", "score":
+  0.02896, "title": "Technique G18 — Description"}, {"id": "html-aria:40:5860", "flavour":
+  "normative", "score": 0.01639, "title": "ARIA in HTML (W3C Recommendation) — 4.
+  Document conformance requirements for use of ARIA attributes in HTML"}, {"id": "tech:G18:2",
+  "flavour": "technique", "score": 0.01639, "title": "Technique G18 — Description"},
+  {"id": "tech:G145:1", "flavour": "technique", "score": 0.01613, "title": "Technique
+  G145 — Description"}]}'
+state: OK
+trace_id: tr-e17f984b0018f1f9fc47740aa30ebba2
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

@@ -1,0 +1,17 @@
+execution_duration_ms: 19
+request_preview: '{"query": "Check whether my fix works: replace that image with <p>removed</p>
+  and validate it."}'
+request_time: '2026-09-07T15:29:10.931Z'
+response_preview: '{"hits": [{"id": "tech:H67:4", "flavour": "technique", "score":
+  0.03048, "title": "Technique H67 — Procedure"}, {"id": "tech:F65:5", "flavour":
+  "technique", "score": 0.03016, "title": "Technique F65 — Procedure"}, {"id": "assoc:1.4.9:C30",
+  "flavour": "technique", "score": 0.02765, "title": "C30 (sufficient for SC 1.4.9):
+  Using CSS to replace text with images of text and providing user interface controls
+  to switch"}, {"id": "html-aria:16:4644", "flavour": "normative", "score": 0.01639,
+  "title": "ARIA in HTML (W3C Recommendation) — 3.5 Adhere to the rules of HTML"}]}'
+state: OK
+trace_id: tr-5e925efdbab924c045f5d7414a4436a2
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

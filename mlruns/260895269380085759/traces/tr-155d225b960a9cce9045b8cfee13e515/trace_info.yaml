@@ -1,0 +1,17 @@
+execution_duration_ms: 137
+request_preview: '{"query": "lcp Largest Contentful Paint is 76ms"}'
+request_time: '2026-09-07T15:26:41.685Z'
+response_preview: '{"hits": [{"id": "web.dev:2:1737", "flavour": "community", "score":
+  0.03083, "title": "Largest Contentful Paint (LCP) — Largest Contentful Paint (LCP)
+  Stay organized with collections Save and categorize content based on your preferences."},
+  {"id": "web.dev:15:1646", "flavour": "community", "score": 0.03068, "title": "Largest
+  Contentful Paint (LCP) — Lab tools"}, {"id": "web.dev:0:1938", "flavour": "community",
+  "score": 0.03062, "title": "Largest Contentful Paint (LCP) — Introduction"}, {"id":
+  "web.dev:3:5786", "flavour": "community", "score": 0.03055, "title": "Largest Contentful
+  Paint (LCP) — What is LCP?"}]}'
+state: OK
+trace_id: tr-155d225b960a9cce9045b8cfee13e515
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT

@@ -1,0 +1,16 @@
+assessment_id: a-2e2a4ee659ea451e83ce6edbfe5a7757
+assessment_name: must_mention_any
+create_time: '2026-09-07T15:26:50.463Z'
+expectation:
+  serialized_value:
+    serialization_format: JSON_FORMAT
+    value: '["aria-checked", "role=\"button\"", "role=button", "switch", "aria-pressed"]'
+last_update_time: '2026-09-07T15:26:50.463Z'
+metadata:
+  mlflow.assessment.sourceRunId: c1603ad6e57b4f07846ffd54827bc3b7
+source:
+  source_id: User
+  source_type: HUMAN
+span_id: 52f226594f1b8903
+trace_id: tr-1de299d34c07f8940e9be7d11b4eb432
+valid: true

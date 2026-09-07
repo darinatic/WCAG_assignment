@@ -1,0 +1,115 @@
+[
+  {
+    "id": "naming-figure-alt",
+    "fixture": "gov-homepage.html",
+    "rule": "image-alt",
+    "selector_contains": "figure > img",
+    "turns": ["Explain this issue and give me the fix for my page."],
+    "expects": {
+      "recipe": "naming",
+      "criterion": "1.1.1",
+      "must_mention_any": ["figcaption", "capital budget", "public hearing", "Council"],
+      "notes": "The alt text should be derived from the figcaption on this page, not invented. Tests whether the naming recipe's nearby-text extraction actually reaches the model."
+    }
+  },
+  {
+    "id": "naming-icon-link",
+    "fixture": "gov-homepage.html",
+    "rule": "link-name",
+    "selector_contains": "a:nth-of-type(2)",
+    "turns": ["Explain this issue and give me the fix for my page."],
+    "expects": {
+      "recipe": "naming",
+      "criterion": "2.4.4",
+      "must_mention_any": ["search", "/search"],
+      "notes": "Icon-only link. The only clue to its purpose is href=/search and the icon class. Tests inference from weak signals."
+    }
+  },
+  {
+    "id": "contrast-ancestor-background",
+    "fixture": "gov-homepage.html",
+    "rule": "color-contrast",
+    "selector_contains": "article > p",
+    "turns": ["Explain this issue and give me the fix for my page."],
+    "expects": {
+      "recipe": "contrast",
+      "criterion": "1.4.3",
+      "must_mention_any": ["3.08", "4.5"],
+      "must_not_mention": ["3.45"],
+      "notes": "THE key context case. The element's own background is transparent; the real background (#f2f2f2) is painted by section.news. An assistant assuming a white page background computes 3.45:1 instead of 3.08:1 and recommends a colour that still fails."
+    }
+  },
+  {
+    "id": "contrast-bold-threshold",
+    "fixture": "gov-homepage.html",
+    "rule": "color-contrast",
+    "selector_contains": "article > p",
+    "turns": [
+      "Explain this issue and give me the fix for my page.",
+      "Could I just make the text bold instead of changing the colour?"
+    ],
+    "expects": {
+      "recipe": "contrast",
+      "criterion": "1.4.3",
+      "must_mention_any": ["24px", "18.66", "large", "still", "no"],
+      "notes": "Bold at 16px does not reach the WCAG large-text threshold (needs 18.66px bold or 24px), so the 4.5:1 requirement stands. Tests whether the model uses the computed threshold rather than a vague recollection."
+    }
+  },
+  {
+    "id": "aria-allowed-attr-button",
+    "fixture": "gov-homepage.html",
+    "rule": "aria-allowed-attr",
+    "selector_contains": "div:nth-of-type(1)",
+    "turns": ["Explain this issue and give me the fix for my page."],
+    "expects": {
+      "recipe": "aria",
+      "criterion": "4.1.2",
+      "must_mention_any": ["aria-checked", "role=\"button\"", "role=button", "switch", "aria-pressed"],
+      "notes": "The brief's 'cryptic' case. aria-checked is not allowed on role=button. A correct fix either drops the attribute or changes the role to switch/checkbox."
+    }
+  },
+  {
+    "id": "lcp-render-blocking",
+    "fixture": "gov-homepage.html",
+    "rule": "lcp",
+    "selector_contains": "section:nth-of-type(1) > img",
+    "turns": ["Explain this issue and give me the fix for my page."],
+    "expects": {
+      "recipe": "lcp",
+      "criterion": null,
+      "must_mention_any": ["print.css", "fetchpriority", "preload", "1,043", "1043", "1 MB", "1MB"],
+      "notes": "No WCAG anchor exists for LCP, so the deterministic path returns nothing and grounding leans on community sources. A good answer names the 1MB hero image and/or the unnecessary render-blocking print.css."
+    }
+  },
+  {
+    "id": "tool-stale-element",
+    "fixture": "gov-homepage.html",
+    "rule": "image-alt",
+    "selector_contains": "figure > img",
+    "turns": [
+      "Explain this issue and give me the fix for my page.",
+      "Check whether my fix works: replace that image with <p>removed</p> and validate it."
+    ],
+    "mutate_before_turn": 2,
+    "expects": {
+      "recipe": "naming",
+      "criterion": "1.1.1",
+      "notes": "Tests the failure contract (design spec §6.4). The assistant must surface the non-ok tool status rather than answering as though it had succeeded."
+    }
+  },
+  {
+    "id": "scope-adjacent-question",
+    "fixture": "gov-homepage.html",
+    "rule": "image-alt",
+    "selector_contains": "figure > img",
+    "turns": [
+      "Explain this issue and give me the fix for my page.",
+      "Unrelated: should I rewrite this whole site in React or Vue?"
+    ],
+    "expects": {
+      "recipe": "naming",
+      "scope_refusal": true,
+      "notes": "Adjacent question from the brief. Should decline briefly and redirect, without lecturing and without answering the framework question."
+    }
+  }
+]

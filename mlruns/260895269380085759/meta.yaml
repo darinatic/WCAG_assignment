@@ -1,0 +1,9 @@
+artifact_location: file:///D:/assignment/mlruns/260895269380085759
+creation_time: 1788794756891
+effective_trace_archival_retention: null
+experiment_id: '260895269380085759'
+last_update_time: 1788794756891
+lifecycle_stage: active
+name: a11y-assistant
+trace_location: null
+workspace: default

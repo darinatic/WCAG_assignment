@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Fix Assistant{% endblock %}</title>
+<style>
+  :root {
+    --bg:#ffffff; --fg:#16191d; --muted:#5b6470; --line:#dfe3e8;
+    --accent:#0b4f9e; --warn:#8a5000; --bad:#a1201a; --good:#1c6b3a;
+    --panel:#f6f7f9; --code:#f2f4f7;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+         color:var(--fg); background:var(--bg); }
+  a { color:var(--accent); }
+  header.top { border-bottom:1px solid var(--line); padding:.75rem 1.25rem;
+               display:flex; gap:1rem; align-items:baseline; }
+  header.top h1 { font-size:1rem; margin:0; font-weight:650; }
+  header.top .meta { color:var(--muted); font-size:.8rem; margin-left:auto; }
+  main { padding:1.25rem; max-width:1500px; margin:0 auto; }
+  h2 { font-size:1.05rem; margin:1.5rem 0 .6rem; }
+  .card { border:1px solid var(--line); border-radius:6px; padding:1rem; margin-bottom:1rem; }
+  table { border-collapse:collapse; width:100%; font-size:.875rem; }
+  th,td { text-align:left; padding:.45rem .6rem; border-bottom:1px solid var(--line);
+          vertical-align:top; }
+  th { color:var(--muted); font-weight:600; font-size:.78rem; text-transform:uppercase;
+       letter-spacing:.03em; }
+  code, pre, .mono { font-family:var(--mono); font-size:.8rem; }
+  pre { background:var(--code); padding:.7rem; border-radius:4px; overflow-x:auto;
+        white-space:pre-wrap; word-break:break-word; }
+  .tag { display:inline-block; padding:.1rem .4rem; border-radius:3px; font-size:.72rem;
+         background:var(--panel); border:1px solid var(--line); color:var(--muted);
+         font-family:var(--mono); }
+  .tag.sc { background:#eaf1fb; border-color:#c3d8f2; color:var(--accent); }
+  .tag.recipe { background:#eef7f0; border-color:#c9e4d2; color:var(--good); }
+  .tag.generic { background:#fdf3e6; border-color:#f0d9b5; color:var(--warn); }
+  .impact-critical,.impact-serious { color:var(--bad); font-weight:600; }
+  .muted { color:var(--muted); }
+  button, input[type=submit] { font:inherit; padding:.45rem .8rem; border:1px solid var(--line);
+           background:var(--panel); border-radius:4px; cursor:pointer; }
+  button.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+  input[type=text] { font:inherit; padding:.45rem .6rem; border:1px solid var(--line);
+                     border-radius:4px; min-width:24rem; }
+  .split { display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap:1rem; }
+  @media (max-width:1100px){ .split { grid-template-columns:1fr; } }
+  .notice { background:#fdf3e6; border:1px solid #f0d9b5; padding:.6rem .8rem;
+            border-radius:4px; color:var(--warn); }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1><a href="/" style="text-decoration:none;color:inherit">Fix Assistant</a></h1>
+  <span class="muted">scan &rarr; explain &rarr; verify</span>
+  <span class="meta">{% block headmeta %}{% endblock %}</span>
+</header>
+<main>{% block content %}{% endblock %}</main>
+</body>
+</html>

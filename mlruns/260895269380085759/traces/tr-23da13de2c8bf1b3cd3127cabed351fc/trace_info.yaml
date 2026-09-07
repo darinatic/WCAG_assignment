@@ -1,0 +1,10 @@
+execution_duration_ms: 6
+request_time: '2026-09-07T15:28:04.652Z'
+response_preview: '{"recipe": "naming", "blocks": ["Failing element + naming context",
+  "Nearby text (candidate name sources)", "Nearest preceding heading"]}'
+state: OK
+trace_id: tr-23da13de2c8bf1b3cd3127cabed351fc
+trace_location:
+  mlflow_experiment:
+    experiment_id: '260895269380085759'
+  type: MLFLOW_EXPERIMENT
