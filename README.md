@@ -5,7 +5,7 @@ on it. It scans a page, explains each finding in plain language grounded in the 
 text, proposes a fix written against that page's markup, and verifies its own fix in a real
 browser before you read it.
 
-The design write-up is **[DESIGN.md](DESIGN.md)** ([PDF](DESIGN.pdf)) — what I decided, what
+The design write-up is **[DESIGN.md](DESIGN.md)** ([PDF](DESIGN.pdf)): what I decided, what
 I deliberately did not build, and why, for each layer. This file is setup and commands only.
 
 Layers tackled: Layer 1 (Retrieval & Grounding), Layer 2 (Tool Use & Agentic), plus the
@@ -26,7 +26,7 @@ python -m venv .venv
 .venv\Scripts\activate                # Windows
 # source .venv/bin/activate           # macOS / Linux
 
-# 3. CPU-only torch FIRST — otherwise pip resolves the CUDA wheel as a dependency
+# 3. CPU-only torch FIRST, otherwise pip resolves the CUDA wheel as a dependency
 #    of sentence-transformers. Built and evaluated against 2.14.0+cpu.
 pip install torch==2.14.0 --index-url https://download.pytorch.org/whl/cpu
 pip install -r requirements.txt
@@ -75,9 +75,77 @@ scanner already installed):
 node scripts/md2pdf.mjs DESIGN.md DESIGN.pdf
 ```
 
+## The interesting paths
+
+### 1. The context recipe that changes the answer (start here)
+
+Scan `gov-homepage.html`, open the **`color-contrast`** issue, then open the **Prompt** tab in
+the Context Inspector.
+
+The failing `<p class="muted">` has `background-color: rgba(0,0,0,0)`, i.e. transparent. The
+colour a user actually sees is painted by `<section class="news">` three levels up. The recipe
+walks up to find it and computes **3.08:1**. An assistant that assumes a white page background
+computes **3.45:1** and recommends a colour that still fails.
+
+That single number is the whole argument for issue-type-specific context extraction.
+
+### 2. The assistant verifying its own fix
+
+On any issue, ask a follow-up:
+
+> Validate that fix for me.
+
+Watch the **Tools** tab. `validate_fix` applies the model's proposed markup to the real page in
+a headless browser and re-runs axe, reporting both whether the violation cleared **and whether
+the patch introduced anything new**.
+
+### 3. Citation verification catching a fabrication
+
+Every criterion the model cites is checked twice: was it in the supplied context, and does that
+text actually support the claim. Badges appear above the answer. To see it fire, ask something
+that invites over-citation:
+
+> Which other WCAG criteria does this element violate?
+
+### 4. Turn 0 makes no tool calls
+
+The first answer streams immediately, because the recipe pre-fetched everything. Compare the
+**Tools** tab on turn 1 (empty, by design) with a follow-up. The `first token Nms` readout is
+in the top right of the answer pane.
+
+### 5. Prompt caching, measured not claimed
+
+**Prompt** tab, on any turn after the first: `cache_read_tokens` should be non-zero, showing the
+page context being re-read from cache rather than re-billed.
+
+### 6. The failure contract
+
+Edit `fixtures/gov-homepage.html` (delete the news `<figure>`) while a conversation is open,
+then ask the assistant to validate a fix. The page hash no longer matches, `validate_fix`
+returns `stale`, and the assistant must tell you the page changed rather than answering from a
+stale index.
+
+### 7. Scanning a real site
+
+Any public URL works: paste it into the scan box. Live pages change under you, which is exactly
+why the eval suite runs against fixtures.
+
+### Observability
+
+The **Context Inspector** (right-hand pane) has three tabs:
+
+- **Prompt**: budget allocation and what was actually billed (measured input tokens, cache
+  reads), then every block that was sent with its token count, then everything that was
+  dropped, with the reason.
+- **Retrieval**: hits with flavour and scores, anchor vs. semantic.
+- **Tools**: calls with statuses and latencies.
+
+That panel is the answer to *what the model received*. MLflow answers a different question;
+see below.
+
 ## Evals
 
-The server must be running first — fixtures are served over HTTP so that Resource Timing and
+The server must be running first, since fixtures are served over HTTP so that Resource Timing and
 LCP are real.
 
 ```bash

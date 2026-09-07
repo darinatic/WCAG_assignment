@@ -56,16 +56,21 @@ const page_html = `<!doctype html>
   blockquote { margin: .4em 0; padding-left: .7em; border-left: 2px solid #dfe3e8;
                color: #5b6470; }
   .mermaid { text-align: center; margin: .35em 0; background: none; }
-  .mermaid svg { max-width: 100%; height: auto; }
+  /* Cap diagram height so one flowchart can't eat a third of a page. SVG is vector,
+     so scaling down stays crisp and zoomable in the PDF. */
+  .mermaid svg { max-width: 100%; max-height: 170px; width: auto; height: auto; }
   h2, h3 { break-after: avoid; }
-  table, .mermaid { break-inside: avoid; }
+  /* Diagrams must not be split. Tables may be, at row boundaries: forbidding it
+     pushes a tall table to the next page and leaves most of a page blank. */
+  .mermaid { break-inside: avoid; }
+  tr, th, td { break-inside: avoid; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 </head><body>
 ${html}
 <script>
   mermaid.initialize({ startOnLoad: false, theme: 'neutral',
-                       themeVariables: { fontSize: '12px' },
+                       themeVariables: { fontSize: '10px' },
                        flowchart: { htmlLabels: true, curve: 'basis' } });
   window.__ready = mermaid.run().then(() => true).catch(e => { console.error(e); return true; });
 </script>
@@ -76,7 +81,13 @@ const htmlPath = join(dir, 'doc.html');
 writeFileSync(htmlPath, page_html, 'utf8');
 
 const browser = await chromium.launch();
-const page = await browser.newPage();
+// Measure at the PRINT column width, not the default 1280px viewport. Text wraps far
+// less at 1280px, so a screen-width measurement under-reports print height by roughly
+// half and happily calls a 3-page document "1.8 pages".
+// A4 is 210x297mm; with the 12/13mm @page margins that leaves 184x273mm, which at
+// 96dpi is 695x1032 CSS px.
+const PRINT_W = 695, PRINT_H = 1032;
+const page = await browser.newPage({ viewport: { width: PRINT_W, height: PRINT_H } });
 await page.goto(pathToFileURL(htmlPath).href, { waitUntil: 'networkidle' });
 await page.waitForFunction('window.__ready !== undefined');
 await page.evaluate(() => window.__ready);
@@ -90,5 +101,6 @@ await browser.close();
 
 const { execSync } = await import('node:child_process');
 console.log(`wrote ${outPath}`);
-console.log(`content height: ${height}px (A4 printable ~1010px/page at this margin)`);
-console.log(`estimated pages: ${(height / 1010).toFixed(2)}`);
+console.log(`content height: ${height}px (A4 printable ${PRINT_H}px/page at this margin)`);
+console.log(`estimated pages: ${(height / PRINT_H).toFixed(2)} (flow only; ` +
+            `break-inside:avoid on tables and diagrams can add a page)`);
