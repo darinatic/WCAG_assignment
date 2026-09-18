@@ -42,8 +42,10 @@ AGENTS.md
 .deepeval
 .deepeval_telemetry.txt
 # Author's own code-level notes and agent-generated specs. DESIGN.md is the
-# deliverable; docs/CODEBASE.md declares itself private working notes.
-docs/
+# two-page deliverable; docs/CODEBASE.md is the long-form walkthrough and IS
+# committed. Everything else under docs/ stays local.
+docs/*
+!docs/CODEBASE.md
 
 # --- OS / editor ---
 .DS_Store
